@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}
+Leaderboard - GameVerse
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <div class="welcome-card">
+
+        <div>
+
+            <div class="badge">
+                🏆 GAMEVERSE LEADERBOARD
+            </div>
+
+            <h1>
+                Player Rankings
+            </h1>
+
+            <p>
+                Compete, earn XP and improve your score.
+            </p>
+
+        </div>
+
+        <div class="player-icon">
+            🏆
+        </div>
+
+    </div>
+
+
+    <div class="leaderboard-card">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Rank</th>
+
+                    <th>Player</th>
+
+                    <th>Level</th>
+
+                    <th>Score</th>
+
+                    <th>XP</th>
+
+                    <th>Coins</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for player in players %}
+
+                <tr>
+
+                    <td>
+
+                        {% if loop.index == 1 %}
+                            🥇
+                        {% elif loop.index == 2 %}
+                            🥈
+                        {% elif loop.index == 3 %}
+                            🥉
+                        {% else %}
+                            {{ loop.index }}
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        {% if player["username"] == session["username"] %}
+
+                            <strong>
+                                {{ player["username"] }} ⭐
+                            </strong>
+
+                        {% else %}
+
+                            {{ player["username"] }}
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+                        {{ player["level"] }}
+                    </td>
+
+
+                    <td>
+                        {{ player["score"] }}
+                    </td>
+
+
+                    <td>
+                        {{ player["xp"] }}
+                    </td>
+
+
+                    <td>
+                        {{ player["coins"] }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <br>
+
+    <a
+        href="/dashboard"
+        class="btn">
+
+        ← Back to Dashboard
+
+    </a>
+
+</div>
+
+{% endblock %}

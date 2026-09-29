@@ -1,0 +1,423 @@
+{% extends "base.html" %}
+
+{% block title %}
+Daily Challenge - GameVerse
+{% endblock %}
+
+{% block content %}
+
+<div class="quiz-container">
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <div class="quiz-header">
+
+        <div>
+
+            <div class="badge">
+                📅 DAILY CHALLENGE
+            </div>
+
+            <h1>
+                Today's Challenge 🔥
+            </h1>
+
+            <p>
+                Complete today's challenge and earn bonus rewards!
+            </p>
+
+        </div>
+
+        <div class="big-icon">
+            🔥
+        </div>
+
+    </div>
+
+
+    {% if completed %}
+
+        <!-- =========================
+             ALREADY COMPLETED
+        ========================== -->
+
+        <div class="question-card">
+
+            <div class="badge">
+                ✅ COMPLETED
+            </div>
+
+            <h1>
+                Daily Challenge Completed! 🎉
+            </h1>
+
+            <p>
+                You have already completed today's
+                challenge.
+            </p>
+
+            <p>
+                Come back tomorrow for a new challenge!
+            </p>
+
+            <div class="big-icon">
+                🔥
+            </div>
+
+            <a
+                href="/dashboard"
+                class="btn">
+
+                ← Back to Dashboard
+
+            </a>
+
+        </div>
+
+
+    {% else %}
+
+        <!-- =========================
+             CHALLENGE
+        ========================== -->
+
+        <div class="quiz-info">
+
+            <div>
+
+                📅 Date
+
+                <strong>
+                    {{ challenge["challenge_date"] }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                ⚡ XP Reward
+
+                <strong>
+                    +{{ challenge["xp_reward"] }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                🪙 Coin Reward
+
+                <strong>
+                    +{{ challenge["coin_reward"] }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="question-card">
+
+            <h2>
+                {{ challenge["question"] }}
+            </h2>
+
+
+            <div class="options">
+
+                <button
+                    class="option"
+                    onclick="submitAnswer(0, this)">
+
+                    {{ challenge["option1"] }}
+
+                </button>
+
+
+                <button
+                    class="option"
+                    onclick="submitAnswer(1, this)">
+
+                    {{ challenge["option2"] }}
+
+                </button>
+
+
+                <button
+                    class="option"
+                    onclick="submitAnswer(2, this)">
+
+                    {{ challenge["option3"] }}
+
+                </button>
+
+
+                <button
+                    class="option"
+                    onclick="submitAnswer(3, this)">
+
+                    {{ challenge["option4"] }}
+
+                </button>
+
+            </div>
+
+
+            <div id="result"
+                 style="margin-top:25px;">
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             STREAK INFO
+        ========================== -->
+
+        <div class="game-card"
+             style="margin-top:25px; text-align:center;">
+
+            <div class="big-icon">
+                🔥
+            </div>
+
+            <h2>
+                Keep Your Streak Alive!
+            </h2>
+
+            <p>
+                Complete the Daily Challenge every day
+                to build your streak.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <div style="text-align:center; margin-top:25px;">
+
+        <a
+            href="/dashboard"
+            class="btn">
+
+            ← Dashboard
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   DAILY CHALLENGE
+===================================================== */
+
+let submitted = false;
+
+
+/* =====================================================
+   SUBMIT ANSWER
+===================================================== */
+
+function submitAnswer(selectedAnswer, selectedButton) {
+
+    if (submitted) {
+
+        return;
+
+    }
+
+
+    submitted = true;
+
+
+    const buttons =
+        document.querySelectorAll(".option");
+
+
+    buttons.forEach(function(button) {
+
+        button.disabled = true;
+
+    });
+
+
+    fetch("/daily-challenge/submit", {
+
+        method: "POST",
+
+        headers: {
+
+            "Content-Type": "application/json"
+
+        },
+
+        body: JSON.stringify({
+
+            answer: selectedAnswer
+
+        })
+
+    })
+
+
+    .then(function(response) {
+
+        return response.json();
+
+    })
+
+
+    .then(function(data) {
+
+        const result =
+            document.getElementById("result");
+
+
+        if (!data.success) {
+
+            result.innerHTML = `
+
+                <div class="badge">
+                    ⚠️ ${data.message}
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        if (data.correct) {
+
+            selectedButton.style.border =
+                "3px solid #00ff88";
+
+
+            result.innerHTML = `
+
+                <div class="badge">
+                    🎉 CORRECT!
+                </div>
+
+                <h2>
+                    Excellent! 🔥
+                </h2>
+
+                <p>
+
+                    ⚡ XP Earned:
+                    <strong>
+                        +${data.xp}
+                    </strong>
+
+                    <br><br>
+
+                    🪙 Coins Earned:
+                    <strong>
+                        +${data.coins}
+                    </strong>
+
+                    <br><br>
+
+                    ⭐ Current Level:
+                    <strong>
+                        ${data.level}
+                    </strong>
+
+                </p>
+
+                <p>
+                    Your daily challenge is complete!
+                </p>
+
+                <a
+                    href="/dashboard"
+                    class="btn">
+
+                    Continue 🎮
+
+                </a>
+
+            `;
+
+        }
+
+        else {
+
+            selectedButton.style.border =
+                "3px solid red";
+
+
+            result.innerHTML = `
+
+                <div class="badge">
+                    ❌ WRONG ANSWER
+                </div>
+
+                <h2>
+                    Keep Learning! 💪
+                </h2>
+
+                <p>
+                    You still earned a small XP reward.
+                </p>
+
+                <p>
+
+                    ⚡ XP Earned:
+                    <strong>
+                        +${data.xp}
+                    </strong>
+
+                </p>
+
+                <a
+                    href="/dashboard"
+                    class="btn">
+
+                    Back to Dashboard
+
+                </a>
+
+            `;
+
+        }
+
+    })
+
+
+    .catch(function(error) {
+
+        console.log(error);
+
+        submitted = false;
+
+
+        buttons.forEach(function(button) {
+
+            button.disabled = false;
+
+        });
+
+
+        alert(
+            "Something went wrong. Please try again."
+        );
+
+    });
+
+}
+
+</script>
+
+{% endblock %}

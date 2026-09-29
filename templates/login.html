@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login - GameVerse
+{% endblock %}
+
+{% block content %}
+
+<div class="form-card">
+
+    <h2>Welcome Back 👋</h2>
+
+    <p>
+        Login to continue your GameVerse journey.
+    </p>
+
+    <form method="POST">
+
+        <label>Username</label>
+
+        <input
+            type="text"
+            name="username"
+            placeholder="Enter username"
+            required
+        >
+
+        <label>Password</label>
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Enter password"
+            required
+        >
+
+        <button class="btn full" type="submit">
+            Login
+        </button>
+
+    </form>
+
+    <p class="muted">
+        New player?
+        <a href="/register">Create an account</a>
+    </p>
+
+</div>
+
+{% endblock %}

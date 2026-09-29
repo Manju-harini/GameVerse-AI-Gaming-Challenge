@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+Register - GameVerse
+{% endblock %}
+
+{% block content %}
+
+<div class="form-card">
+
+    <h2>Create Your Player 🎮</h2>
+
+    <p>
+        Create an account and start your GameVerse journey.
+    </p>
+
+    <form method="POST">
+
+        <label>Username</label>
+
+        <input
+            type="text"
+            name="username"
+            placeholder="Enter username"
+            required
+        >
+
+        <label>Password</label>
+
+        <input
+            type="password"
+            name="password"
+            placeholder="Create password"
+            required
+        >
+
+        <label>Confirm Password</label>
+
+        <input
+            type="password"
+            name="confirm_password"
+            placeholder="Confirm password"
+            required
+        >
+
+        <button class="btn full" type="submit">
+            Create Account
+        </button>
+
+    </form>
+
+    <p class="muted">
+        Already have an account?
+        <a href="/login">Login</a>
+    </p>
+
+</div>
+
+{% endblock %}

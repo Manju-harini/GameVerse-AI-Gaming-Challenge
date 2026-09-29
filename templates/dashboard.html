@@ -1,0 +1,509 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard - GameVerse
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard">
+
+    <!-- =========================
+         WELCOME
+    ========================== -->
+
+    <div class="welcome-card">
+
+        <div>
+
+            <div class="badge">
+                🎮 GAMEVERSE PLAYER
+            </div>
+
+            <h1>
+                Welcome, {{ session["username"] }}! 🎉
+            </h1>
+
+            <p>
+                Keep playing, earn rewards and level up!
+            </p>
+
+        </div>
+
+        <div class="player-icon">
+            🎮
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         MAIN STATS
+    ========================== -->
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <h3>⭐ Level</h3>
+
+            <h2>
+                {{ stats["level"] }}
+            </h2>
+
+            <p>
+                Current Level
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>⚡ XP</h3>
+
+            <h2>
+                {{ stats["xp"] }}
+            </h2>
+
+            <p>
+                Experience Points
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>🪙 Coins</h3>
+
+            <h2>
+                {{ stats["coins"] }}
+            </h2>
+
+            <p>
+                Game Coins
+            </p>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>🏆 Score</h3>
+
+            <h2>
+                {{ stats["score"] }}
+            </h2>
+
+            <p>
+                Total Score
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         PLAYER PROGRESS
+    ========================== -->
+
+    <div class="game-section">
+
+        <h2>
+            📈 Player Progress
+        </h2>
+
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <h3>🔥 Streak</h3>
+
+                <h2>
+                    {{ stats["streak"] }}
+                </h2>
+
+                <p>
+                    Consecutive Days
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>🎯 Quizzes</h3>
+
+                <h2>
+                    {{ stats["quizzes_played"] }}
+                </h2>
+
+                <p>
+                    Quizzes Played
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>🤖 Difficulty</h3>
+
+                <h2>
+                    {{ stats["difficulty"] }}
+                </h2>
+
+                <p>
+                    Current Adaptive Level
+                </p>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <h3>✅ Correct</h3>
+
+                <h2>
+                    {{ stats["correct_answers"] }}
+                </h2>
+
+                <p>
+                    Correct Answers
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         LEVEL PROGRESS
+    ========================== -->
+
+    <div class="game-section">
+
+        <h2>
+            🚀 Level Progress
+        </h2>
+
+
+        {% if stats["level"] < 5 %}
+
+            <p>
+                Level {{ stats["level"] }}
+                →
+                Level {{ stats["level"] + 1 }}
+            </p>
+
+
+            <div class="progress-box">
+
+                <div
+                    class="progress-bar"
+                    style="width: {{ stats['xp'] % 100 }}%;">
+                </div>
+
+            </div>
+
+
+            <p>
+                {{ stats["xp"] % 100 }} / 100 XP
+            </p>
+
+        {% else %}
+
+            <div class="badge">
+                🏆 MAX LEVEL REACHED
+            </div>
+
+            <h2>
+                Level 5 Expert 🎉
+            </h2>
+
+            <p>
+                You have reached the maximum GameVerse level!
+            </p>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =========================
+         CHALLENGES
+    ========================== -->
+
+    <div class="game-section">
+
+        <h2>
+            🎯 Choose Your Challenge
+        </h2>
+
+
+        <div class="game-grid">
+
+
+            <!-- AI QUIZ -->
+
+            <div class="game-option">
+
+                <div class="big-icon">
+                    🤖
+                </div>
+
+                <h3>
+                    AI Adaptive Quiz
+                </h3>
+
+                <p>
+                    Answer 25 adaptive questions.
+                    Difficulty changes according to
+                    your performance.
+                </p>
+
+                <a
+                    href="/quiz"
+                    class="btn">
+
+                    Start Quiz 🎯
+
+                </a>
+
+            </div>
+
+
+            <!-- DAILY CHALLENGE -->
+
+            <div class="game-option">
+
+                <div class="big-icon">
+                    📅
+                </div>
+
+                <h3>
+                    Daily Challenge
+                </h3>
+
+                <p>
+                    Complete today's special challenge
+                    and earn bonus XP and coins.
+                </p>
+
+                <a
+                    href="/daily-challenge"
+                    class="btn">
+
+                    Daily Challenge 🔥
+
+                </a>
+
+            </div>
+
+
+            <!-- LEADERBOARD -->
+
+            <div class="game-option">
+
+                <div class="big-icon">
+                    🏆
+                </div>
+
+                <h3>
+                    Leaderboard
+                </h3>
+
+                <p>
+                    Compare your score, XP and level
+                    with other players.
+                </p>
+
+                <a
+                    href="/leaderboard"
+                    class="btn">
+
+                    View Leaderboard
+
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         ACHIEVEMENTS
+    ========================== -->
+
+    <div class="game-section">
+
+        <h2>
+            🏅 Achievements
+        </h2>
+
+
+        {% if achievements %}
+
+            <div class="game-grid">
+
+                {% for achievement in achievements %}
+
+                    <div class="game-option">
+
+                        <div class="big-icon">
+                            {{ achievement["icon"] }}
+                        </div>
+
+                        <h3>
+                            {{ achievement["name"] }}
+                        </h3>
+
+                        <p>
+                            {{ achievement["description"] }}
+                        </p>
+
+                        <div class="badge">
+                            ✓ UNLOCKED
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <div class="game-card">
+
+                <h3>
+                    🔒 No achievements yet
+                </h3>
+
+                <p>
+                    Complete quizzes and challenges
+                    to unlock your first achievement!
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- =========================
+         STATISTICS
+    ========================== -->
+
+    <div class="game-section">
+
+        <h2>
+            📊 Player Statistics
+        </h2>
+
+
+        <div class="game-card">
+
+            <p>
+                🎯 Total Questions:
+                <strong>
+                    {{ stats["total_questions"] }}
+                </strong>
+            </p>
+
+
+            <p>
+                ✅ Correct Answers:
+                <strong>
+                    {{ stats["correct_answers"] }}
+                </strong>
+            </p>
+
+
+            <p>
+                ❌ Wrong Answers:
+                <strong>
+                    {{ stats["wrong_answers"] }}
+                </strong>
+            </p>
+
+
+            {% if stats["total_questions"] > 0 %}
+
+                <p>
+
+                    📊 Accuracy:
+
+                    <strong>
+
+                        {{
+                            (
+                                stats["correct_answers"]
+                                /
+                                stats["total_questions"]
+                                * 100
+                            ) | round(1)
+                        }}%
+
+                    </strong>
+
+                </p>
+
+            {% else %}
+
+                <p>
+                    📊 Accuracy:
+                    <strong>0%</strong>
+                </p>
+
+            {% endif %}
+
+
+            <p>
+                🔥 Current Streak:
+                <strong>
+                    {{ stats["streak"] }} days
+                </strong>
+            </p>
+
+
+            <p>
+                🤖 Adaptive Difficulty:
+                <strong>
+                    {{ stats["difficulty"] }}
+                </strong>
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         PROFILE
+    ========================== -->
+
+    <div class="game-section">
+
+        <a
+            href="/profile"
+            class="btn">
+
+            👤 View Full Profile
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
